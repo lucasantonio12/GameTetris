@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">GameTetris</string>
+    <string name="tetris">Tetris</string>
+    <string name="novo_jogo">Novo Jogo</string>
+    <string name="continuar">Continuar</string>
+    <string name="configurar">Configurar</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="dificuldade">Dificuldade:</string>
+    <string name="facil">Facil</string>
+    <string name="dificil">Dificil</string>
+    <string name="esquerda">Esquerda</string>
+    <string name="direita">Direita</string>
+    <string name="girar">Girar</string>
+    <string name="descer">Descer</string>
+    <string name="salvar">Salvar</string>
 </resources>

@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#220352"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Game">
 
     <GridLayout
         android:id="@+id/gridboard"
@@ -22,23 +23,46 @@
 
         <Button
             android:id="@+id/right"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Esquerda" />
+            android:fontFamily="@font/fontmeio"
+            android:text="@string/esquerda"
+            android:textColor="#F44336" />
 
         <Button
             android:id="@+id/left"
-            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="118dp"
             android:layout_height="wrap_content"
-            android:text="Direita" />
+            android:fontFamily="@font/fontmeio"
+            android:text="@string/direita"
+            android:textColor="#F44336" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/rotation"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Girar" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/rotation"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:fontFamily="@font/fontmeio"
+            android:text="@string/girar"
+            android:textColor="#F44336" />
+
+        <Button
+            android:id="@+id/downButton"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fontmeio"
+            android:text="@string/descer" />
+    </LinearLayout>
 
 </LinearLayout>

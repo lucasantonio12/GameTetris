@@ -1,4 +1,4 @@
-package br.ufrn.eaj.tads.gametetris
+package pieces
 
 class Point(var x:Int, var y:Int){
     fun moveDown(){
@@ -11,6 +11,10 @@ class Point(var x:Int, var y:Int){
 
     fun moveRight(){
         y--
+    }
+
+    fun moveUp(){
+        x--
     }
 
 
