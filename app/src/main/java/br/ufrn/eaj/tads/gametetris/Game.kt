@@ -110,10 +110,12 @@ class Game : AppCompatActivity() {
             else ->return O(1,12)
         }
     }
+
     fun colisionLeft(): Boolean {
         return((pt.pixelA.y + 1 < COLUMN) && (pt.pixelB.y + 1 < COLUMN) &&
                 (pt.pixelC.y + 1 < COLUMN) && (pt.pixelD.y + 1 < COLUMN))
     }
+
     fun colisionRight(): Boolean{
         return((pt.pixelA.y - 1 >= LIMIT) && (pt.pixelB.y - 1 >= LIMIT)  &&
                 (pt.pixelC.y - 1 >= LIMIT)  && (pt.pixelD.y - 1 >= LIMIT))
@@ -123,6 +125,7 @@ class Game : AppCompatActivity() {
         return((pt.pixelA.x + 1 <= LINE) && (pt.pixelB.x + 1 <= LINE) &&
                 (pt.pixelC.x + 1 <= LINE) && (pt.pixelD.x + 1 <= LINE))
     }
+
     fun printPiece(){
         boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.white)
         boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.white)
@@ -131,7 +134,17 @@ class Game : AppCompatActivity() {
     }
 
     fun savePiece(){
+        board[pt.pixelA.x][pt.pixelA.y] = 1
+        board[pt.pixelB.x][pt.pixelB.y] = 1
+        board[pt.pixelC.x][pt.pixelC.y] = 1
+        board[pt.pixelD.x][pt.pixelD.y] = 1
+    }
 
+
+
+    fun colisionPiece():Boolean{
+        return((board[pt.pixelA.x][pt.pixelA.y] != 1) && (board[pt.pixelB.x][pt.pixelB.y] != 1) &&
+                (board[pt.pixelC.x][pt.pixelC.y] != 1) && (board[pt.pixelD.x][pt.pixelD.y] != 1))
     }
 
     fun gameRun(){
@@ -142,13 +155,22 @@ class Game : AppCompatActivity() {
                     //limpa tela
                     for (i in 0 until LINE) {
                         for (j in 0 until COLUMN) {
-                            boardView[i][j]!!.setImageResource(R.drawable.black)
+                            when(board[i][j]){
+                                0->{
+                                    boardView[i][j]!!.setImageResource(R.drawable.black)
+                                }
+                                1->{
+                                    boardView[i][j]!!.setImageResource(R.drawable.white)
+                                }
+                            }
+
                         }
+
                     }
                     //move peça atual
                     pt.moveDown()
                     //print peça
-                    if(colisionDonw()){
+                    if(colisionDonw() && colisionPiece()){
                         printPiece()
                     }else{
                         speed = 350

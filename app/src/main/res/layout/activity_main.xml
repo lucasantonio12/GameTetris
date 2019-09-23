@@ -62,7 +62,8 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/fontmeio"
-            android:text="@string/descer" />
+            android:text="@string/descer"
+            android:textColor="#F44336" />
     </LinearLayout>
 
 </LinearLayout>
