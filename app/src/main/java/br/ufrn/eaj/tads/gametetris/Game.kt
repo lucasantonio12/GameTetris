@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
+import androidx.lifecycle.ViewModelProviders
 import androidx.core.graphics.drawable.toDrawable
 import pieces.*
 import java.util.*
+import kotlin.concurrent.thread
 import kotlin.random.Random
 
 
@@ -35,6 +37,10 @@ class Game : AppCompatActivity() {
         arrayOfNulls<ImageView>(COLUMN)
     }
 
+
+    val bvm: BoardViewModel by lazy {
+        ViewModelProviders.of(this)[BoardViewModel::class.java]
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -135,8 +141,8 @@ class Game : AppCompatActivity() {
     }
 
     fun colisionPiece():Boolean{
-        return((board[pt.pixelA.x][pt.pixelA.y] != 1) && (board[pt.pixelB.x][pt.pixelB.y] != 1) &&
-                (board[pt.pixelC.x][pt.pixelC.y] != 1) && (board[pt.pixelD.x][pt.pixelD.y] != 1))
+        return((bvm.board[pt.pixelA.x][pt.pixelA.y] != 1) && (bvm.board[pt.pixelB.x][pt.pixelB.y] != 1) &&
+                (bvm.board[pt.pixelC.x][pt.pixelC.y] != 1) && (bvm.board[pt.pixelD.x][pt.pixelD.y] != 1))
     }
 
     fun gameOver():Boolean{
@@ -152,10 +158,21 @@ class Game : AppCompatActivity() {
     }
 
     fun savePiece(){
-        board[pt.pixelA.x][pt.pixelA.y] = 1
-        board[pt.pixelB.x][pt.pixelB.y] = 1
-        board[pt.pixelC.x][pt.pixelC.y] = 1
-        board[pt.pixelD.x][pt.pixelD.y] = 1
+        bvm.board[pt.pixelA.x][pt.pixelA.y] = 1
+        bvm.board[pt.pixelB.x][pt.pixelB.y] = 1
+        bvm.board[pt.pixelC.x][pt.pixelC.y] = 1
+        bvm.board[pt.pixelD.x][pt.pixelD.y] = 1
+    }
+
+    fun gameMode(){
+        when(checkSpeed) {
+            200->{
+                speed = 200
+            }
+            100->{
+                speed = 100
+            }
+        }
     }
 
     fun scoreLine(){
@@ -176,15 +193,24 @@ class Game : AppCompatActivity() {
     }
 
     fun destroyLine(line:Int){
-        board[line] = Array(COLUMN){0}
+        bvm.board[line] = Array(COLUMN){0}
         for(i in line downTo  1){
-            board[i] = board[i - 1]
+            bvm.board[i] = bvm.board[i - 1]
         }
         score += 20
         scoreText.text = score.toString()
     }
 
+    override fun onPause() {
+        super.onPause()
+        running = false
+    }
 
+    override fun onRestart() {
+        super.onRestart()
+        running = true
+        gameRun()
+    }
 
     fun gameRun(){
         Thread{
@@ -194,7 +220,7 @@ class Game : AppCompatActivity() {
                     //limpa tela
                     for (i in 0 until LINE) {
                         for (j in 0 until COLUMN) {
-                            when(board[i][j]){
+                            when(bvm.board[i][j]){
                                 0->{
                                     boardView[i][j]!!.setImageResource(R.drawable.black)
                                 }
@@ -204,31 +230,23 @@ class Game : AppCompatActivity() {
                             }
                         }
                     }
-
                     pt.moveDown()
-
                     if (colisionDonw() && colisionPiece()) {
                         printPiece()
                     }else if(gameOver()){
-                        when(checkSpeed) {
-                            200->{
-                                speed = 200
-                            }
-                            100->{
-                               speed = 100
-                            }
-                        }
-
+                        gameMode()
                         pt.moveUp()
                         printPiece()
                         savePiece()
                         checked = false
                         pt = initPiece()
                     }else{
+                        running = false
+                        Thread.interrupted()
                         var i = Intent(this,GameOver::class.java)
                         i.putExtra("Score",score)
                         startActivity(i)
-                        finish()
+
                     }
                     scoreLine()
                 }
