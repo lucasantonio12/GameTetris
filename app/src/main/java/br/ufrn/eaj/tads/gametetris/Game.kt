@@ -22,7 +22,7 @@ class Game : AppCompatActivity() {
     var pt = initPiece()
     var checked = false
     val PREFS = "prefs_file"
-
+    var score = 0
     //val board = Array(LINHA, { IntArray(COLUNA) })
 
     var board = Array(LINE) {
@@ -40,6 +40,7 @@ class Game : AppCompatActivity() {
         gridboard.columnCount = COLUMN
 
         val inflater = LayoutInflater.from(this)
+        scoreText.text = score.toString()
 
         for (i in 0 until LINE) {
             for (j in 0 until COLUMN) {
@@ -147,6 +148,31 @@ class Game : AppCompatActivity() {
                 (board[pt.pixelC.x][pt.pixelC.y] != 1) && (board[pt.pixelD.x][pt.pixelD.y] != 1))
     }
 
+    fun scoreLine(){
+        for (i in 0 until LINE) {
+            var cont = 0
+            for (j in 0 until COLUMN) {
+                if(board[i][j] == 1) {
+                    cont++
+                }
+                else if(cont === 26) {
+                    destroyLine(i)
+                }
+            }
+        }
+    }
+
+    fun destroyLine(line:Int){
+        board[line] = Array(COLUMN){0}
+        for(i in line downTo  1){
+            board[i] = board[i - 1]
+        }
+        score += 20
+        scoreText.text = score.toString()
+    }
+
+
+
     fun gameRun(){
         Thread{
             while(running){
@@ -177,8 +203,10 @@ class Game : AppCompatActivity() {
                         pt.moveUp()
                         printPiece()
                         savePiece()
+                        checked = false
                         pt = initPiece()
                     }
+                    scoreLine()
                 }
             }
         }.start()

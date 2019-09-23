@@ -9,6 +9,30 @@
     android:orientation="vertical"
     tools:context=".Game">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fontmeio"
+            android:text="@string/pontos"
+            android:textColor="#F44336"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/fontmeio"
+            android:textColor="#F44336"
+            android:textSize="18sp" />
+    </LinearLayout>
+
     <GridLayout
         android:id="@+id/gridboard"
         android:layout_width="wrap_content"
