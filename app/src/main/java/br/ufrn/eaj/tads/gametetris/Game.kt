@@ -1,6 +1,7 @@
 package br.ufrn.eaj.tads.gametetris
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -16,14 +17,15 @@ class Game : AppCompatActivity() {
 
     val LINE = 36
     val COLUMN = 26
-    val LIMIT = 0
+    val DOWNLIMIT = 0
+    val UPPERLIMIT = 0
     var running = true
-    var speed:Long = 350
+    var speed:Long = 200
     var pt = initPiece()
     var checked = false
     val PREFS = "prefs_file"
     var score = 0
-    //val board = Array(LINHA, { IntArray(COLUNA) })
+    var checkSpeed = 200
 
     var board = Array(LINE) {
         Array(COLUMN){0}
@@ -49,13 +51,15 @@ class Game : AppCompatActivity() {
             }
         }
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        /*
-        if(){
-            speed = 350
+
+        if(settings.contains("dificil")){
+            speed = 100
+            checkSpeed = 100
         }else{
-            speed = 230
+            speed = 200
+            checkSpeed = 200
         }
-        */
+
         left.setOnClickListener {
             if(colisionLeft()) {
                 pt.moveLeft()
@@ -81,14 +85,14 @@ class Game : AppCompatActivity() {
         }
 
         downButton.setOnClickListener {
-             speed = 100
+             speed = 80
         }
 
         gameRun()
     }
 
     fun initPiece():Piece{
-        var randomPiece = Random.nextInt(1,6)
+        var randomPiece = Random.nextInt(1,7)
         when(randomPiece){
             1->{
                 return I(1,12)
@@ -108,6 +112,9 @@ class Game : AppCompatActivity() {
             6->{
                 return C(1,12)
             }
+            7->{
+                return O(1,12)
+            }
             else ->return O(1,12)
         }
     }
@@ -118,13 +125,23 @@ class Game : AppCompatActivity() {
     }
 
     fun colisionRight(): Boolean{
-        return((pt.pixelA.y - 1 >= LIMIT) && (pt.pixelB.y - 1 >= LIMIT)  &&
-                (pt.pixelC.y - 1 >= LIMIT)  && (pt.pixelD.y - 1 >= LIMIT))
+        return((pt.pixelA.y - 1 >= DOWNLIMIT) && (pt.pixelB.y - 1 >= DOWNLIMIT)  &&
+                (pt.pixelC.y - 1 >= DOWNLIMIT)  && (pt.pixelD.y - 1 >= DOWNLIMIT))
     }
 
     fun colisionDonw():Boolean{
         return((pt.pixelA.x + 1 <= LINE) && (pt.pixelB.x + 1 <= LINE) &&
                 (pt.pixelC.x + 1 <= LINE) && (pt.pixelD.x + 1 <= LINE))
+    }
+
+    fun colisionPiece():Boolean{
+        return((board[pt.pixelA.x][pt.pixelA.y] != 1) && (board[pt.pixelB.x][pt.pixelB.y] != 1) &&
+                (board[pt.pixelC.x][pt.pixelC.y] != 1) && (board[pt.pixelD.x][pt.pixelD.y] != 1))
+    }
+
+    fun gameOver():Boolean{
+        return((pt.pixelA.x - 1 > UPPERLIMIT) && (pt.pixelB.x - 1 > UPPERLIMIT) &&
+                (pt.pixelC.x - 1 > UPPERLIMIT) && (pt.pixelD.x - 1 > UPPERLIMIT))
     }
 
     fun printPiece(){
@@ -141,22 +158,18 @@ class Game : AppCompatActivity() {
         board[pt.pixelD.x][pt.pixelD.y] = 1
     }
 
-
-
-    fun colisionPiece():Boolean{
-        return((board[pt.pixelA.x][pt.pixelA.y] != 1) && (board[pt.pixelB.x][pt.pixelB.y] != 1) &&
-                (board[pt.pixelC.x][pt.pixelC.y] != 1) && (board[pt.pixelD.x][pt.pixelD.y] != 1))
-    }
-
     fun scoreLine(){
         for (i in 0 until LINE) {
             var cont = 0
             for (j in 0 until COLUMN) {
-                if(board[i][j] == 1) {
-                    cont++
+                if(board[i][j] == 0) {
+                    break
                 }
-                else if(cont === 26) {
-                    destroyLine(i)
+                else{
+                    cont++
+                    if((cont === COLUMN)){
+                        destroyLine(i)
+                    }
                 }
             }
         }
@@ -189,22 +202,33 @@ class Game : AppCompatActivity() {
                                     boardView[i][j]!!.setImageResource(R.drawable.white)
                                 }
                             }
+                        }
+                    }
 
+                    pt.moveDown()
+
+                    if (colisionDonw() && colisionPiece()) {
+                        printPiece()
+                    }else if(gameOver()){
+                        when(checkSpeed) {
+                            200->{
+                                speed = 200
+                            }
+                            100->{
+                               speed = 100
+                            }
                         }
 
-                    }
-                    //move peça atual
-                    pt.moveDown()
-                    //print peça
-                    if(colisionDonw() && colisionPiece()){
-                        printPiece()
-                    }else{
-                        speed = 350
                         pt.moveUp()
                         printPiece()
                         savePiece()
                         checked = false
                         pt = initPiece()
+                    }else{
+                        var i = Intent(this,GameOver::class.java)
+                        i.putExtra("Score",score)
+                        startActivity(i)
+                        finish()
                     }
                     scoreLine()
                 }

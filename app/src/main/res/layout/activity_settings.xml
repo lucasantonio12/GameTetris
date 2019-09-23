@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#220352"
+    android:background="#36465D"
     tools:context=".Settings">
 
     <TextView
@@ -95,6 +95,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/fontmeio"
         android:text="Sair"
+        android:textColor="#F44336"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

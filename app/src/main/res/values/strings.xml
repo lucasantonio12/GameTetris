@@ -14,4 +14,9 @@
     <string name="descer">Descer</string>
     <string name="salvar">Salvar</string>
     <string name="pontos">Pontos:</string>
+    <string name="todo">TODO</string>
+    <string name="tentar_de_novo">Tentar de novo?</string>
+    <string name="sim">Sim</string>
+    <string name="n_o">Não</string>
+    <string name="pontua_o">Pontuação:</string>
 </resources>
