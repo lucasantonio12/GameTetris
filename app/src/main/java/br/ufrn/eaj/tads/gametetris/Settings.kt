@@ -13,17 +13,17 @@ class Settings : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val salvar = settings.getBoolean("salvar", false)
+        val save = settings.getBoolean("save", false)
 
 
-        if (salvar){
-            salveButton.isChecked = salvar
-
+        if (save){
+            saveButton.isChecked = save
             if(facil.isChecked){
-                val texto = settings.getString("texto","facil")
-
+                val text = settings.getString("text","easy")
+            }else if(dificil.isChecked){
+                val text= settings.getString("text","hard")
             }else{
-                val texto = settings.getString("texto","dificil")
+                val text = settings.getString("text","medium")
             }
 
         }
@@ -38,32 +38,32 @@ class Settings : AppCompatActivity() {
 
 
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        var editor = settings.edit()
+        var edit = settings.edit()
 
-        if (salveButton.isChecked) {
+        if (saveButton.isChecked) {
 
             /*
             editor.putBoolean("salvar", checkBox.isChecked)
             editor.putString("texto", editText.text.toString())
             editor.commit()
             */
-
-            with(settings.edit()) {
-                putBoolean("salvar", salveButton.isChecked)
+            with(edit) {
+                putBoolean("save", saveButton.isChecked)
                 if(facil.isChecked){
-                    putString("texto","facil")
+                    putString("text","easy")
+                }else if(dificil.isChecked){
+                    putString("text","hard")
                 }else{
-                    putString("texto","dificil")
+                    putString("text","medium")
                 }
                 commit()
             }
 
 
         } else {
-
             with(settings.edit()) {
-                remove("salvar")
-                remove("texto")
+                remove("save")
+                remove("text")
                 commit()
             }
         }

@@ -55,13 +55,16 @@ class Game : AppCompatActivity() {
             }
         }
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-
-        if(settings.contains("dificil")){
+        var velocidade = settings.getString("text","")
+        if(velocidade.equals("hard")){
             speed = 100
             checkSpeed = 100
-        }else{
+        }else if(velocidade.equals("medium")){
             speed = 200
             checkSpeed = 200
+        }else{
+            speed = 300
+            checkSpeed = 300
         }
 
         left.setOnClickListener {
@@ -96,7 +99,7 @@ class Game : AppCompatActivity() {
     }
 
     fun initPiece():Piece{
-        var randomPiece = Random.nextInt(1,7)
+        var randomPiece = Random.nextInt(1,8)
         when(randomPiece){
             1->{
                 idPieceColor = 1
@@ -177,6 +180,9 @@ class Game : AppCompatActivity() {
             100->{
                 speed = 100
             }
+            300->{
+                speed = 300
+            }
         }
     }
 
@@ -226,7 +232,7 @@ class Game : AppCompatActivity() {
             }
         }
     }
-    /*
+
     fun colorBoard(i:Int,j:Int,idPieceColor: Int){
         when(idPieceColor){
             1->{
@@ -252,12 +258,12 @@ class Game : AppCompatActivity() {
             }
         }
     }
-    */
+
     fun scoreLine(){
         for (i in 0 until LINE) {
             var cont = 0
             for (j in 0 until COLUMN) {
-                if(board[i][j] == 0) {
+                if(bvm.board[i][j] == 0) {
                     break
                 }
                 else{
@@ -296,14 +302,17 @@ class Game : AppCompatActivity() {
                 Thread.sleep(speed)
                 runOnUiThread{
                     //limpa tela
+                   // boardColor()
                     for (i in 0 until LINE) {
                         for (j in 0 until COLUMN) {
                             when(bvm.board[i][j]){
+
                                 0->{
-                                    boardView[i][j]!!.setImageResource(R.drawable.black)
+                                    boardView[i][j]!!.setImageResource(R.drawable.greenthree)
                                 }
                                 1->{
-                                    boardView[i][j]!!.setImageResource(R.drawable.green)
+                                    colorBoard(i,j,idPieceColor)
+                                    //boardView[i][j]!!.setImageResource(R.drawable.green)
                                 }
                             }
                         }

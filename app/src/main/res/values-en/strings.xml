@@ -13,7 +13,7 @@
     <string name="n_o">Not</string>
     <string name="novo_jogo">New Game</string>
     <string name="pontos">Score:</string>
-    <string name="pontua_o">Scoring</string>
+    <string name="pontua_o">Scoring:</string>
     <string name="preferencias">Preferences</string>
     <string name="sair">Exit</string>
     <string name="salvar">Save</string>
@@ -21,4 +21,6 @@
     <string name="tentar_de_novo">Try Again?</string>
     <string name="tetris">Tetris</string>
     <string name="todo">ALL</string>
+    <string name="medio">Medium</string>
+    <string name="recorde">Record:</string>
 </resources>
