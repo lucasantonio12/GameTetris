@@ -292,6 +292,11 @@ class Game : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
+        /*
+        var i = Intent(this,Home::class.java)
+        startActivity(i)
+        */
+         
         running = true
         gameRun()
     }
@@ -306,7 +311,6 @@ class Game : AppCompatActivity() {
                     for (i in 0 until LINE) {
                         for (j in 0 until COLUMN) {
                             when(bvm.board[i][j]){
-
                                 0->{
                                     boardView[i][j]!!.setImageResource(R.drawable.greenthree)
                                 }
@@ -333,7 +337,7 @@ class Game : AppCompatActivity() {
                         var i = Intent(this,GameOver::class.java)
                         i.putExtra("Score",score)
                         startActivity(i)
-
+                        finish()
                     }
                     scoreLine()
                 }
