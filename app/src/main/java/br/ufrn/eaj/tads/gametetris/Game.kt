@@ -8,10 +8,7 @@ import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProviders
-import androidx.core.graphics.drawable.toDrawable
 import pieces.*
-import java.util.*
-import kotlin.concurrent.thread
 import kotlin.random.Random
 
 
@@ -28,6 +25,7 @@ class Game : AppCompatActivity() {
     val PREFS = "prefs_file"
     var score = 0
     var checkSpeed = 200
+    var idPieceColor = 0
 
     var board = Array(LINE) {
         Array(COLUMN){0}
@@ -101,27 +99,37 @@ class Game : AppCompatActivity() {
         var randomPiece = Random.nextInt(1,7)
         when(randomPiece){
             1->{
+                idPieceColor = 1
                 return I(1,12)
             }
             2->{
+                idPieceColor = 2
                 return L(1,12)
             }
             3->{
+                idPieceColor = 3
                 return N(1,12)
             }
             4->{
+                idPieceColor = 4
                 return T(1,12)
             }
             5->{
+                idPieceColor = 5
                 return Z(1,12)
             }
             6->{
+                idPieceColor = 6
                 return C(1,12)
             }
             7->{
+                idPieceColor = 7
                 return O(1,12)
             }
-            else ->return O(1,12)
+            else ->{
+                idPieceColor = 7
+                return O(1,12)
+            }
         }
     }
 
@@ -151,10 +159,7 @@ class Game : AppCompatActivity() {
     }
 
     fun printPiece(){
-        boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.white)
-        boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.white)
-        boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.white)
-        boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.white)
+        colorPiece(idPieceColor)
     }
 
     fun savePiece(){
@@ -175,6 +180,79 @@ class Game : AppCompatActivity() {
         }
     }
 
+    fun colorPiece(idPieceColor:Int){
+        when(idPieceColor){
+            1->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.red)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.red)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.red)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.red)
+            }
+            2->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.blue)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.blue)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.blue)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.blue)
+            }
+            3->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.orange)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.orange)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.orange)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.orange)
+            }
+            4->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.ocean)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.ocean)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.ocean)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.ocean)
+            }
+            5->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.purple)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.purple)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.purple)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.purple)
+            }
+            6->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.yellow)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.yellow)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.yellow)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.yellow)
+            }
+            7->{
+                boardView[pt.pixelA.x][pt.pixelA.y]!!.setImageResource(R.drawable.pink)
+                boardView[pt.pixelB.x][pt.pixelB.y]!!.setImageResource(R.drawable.pink)
+                boardView[pt.pixelC.x][pt.pixelC.y]!!.setImageResource(R.drawable.pink)
+                boardView[pt.pixelD.x][pt.pixelD.y]!!.setImageResource(R.drawable.pink)
+            }
+        }
+    }
+    /*
+    fun colorBoard(i:Int,j:Int,idPieceColor: Int){
+        when(idPieceColor){
+            1->{
+                boardView[i][j]!!.setImageResource(R.drawable.red)
+            }
+            2->{
+                boardView[i][j]!!.setImageResource(R.drawable.blue)
+            }
+            3->{
+                boardView[i][j]!!.setImageResource(R.drawable.orange)
+            }
+            4->{
+                boardView[i][j]!!.setImageResource(R.drawable.ocean)
+            }
+            5->{
+                boardView[i][j]!!.setImageResource(R.drawable.purple)
+            }
+            6->{
+                boardView[i][j]!!.setImageResource(R.drawable.yellow)
+            }
+            7->{
+                boardView[i][j]!!.setImageResource(R.drawable.pink)
+            }
+        }
+    }
+    */
     fun scoreLine(){
         for (i in 0 until LINE) {
             var cont = 0
@@ -225,7 +303,7 @@ class Game : AppCompatActivity() {
                                     boardView[i][j]!!.setImageResource(R.drawable.black)
                                 }
                                 1->{
-                                    boardView[i][j]!!.setImageResource(R.drawable.white)
+                                    boardView[i][j]!!.setImageResource(R.drawable.green)
                                 }
                             }
                         }
