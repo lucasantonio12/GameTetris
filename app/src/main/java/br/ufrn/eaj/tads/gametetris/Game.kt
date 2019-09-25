@@ -68,13 +68,13 @@ class Game : AppCompatActivity() {
         }
 
         left.setOnClickListener {
-            if(colisionLeft()) {
+            if(colisionLeft() ) {
                 pt.moveLeft()
             }
         }
 
         right.setOnClickListener {
-            if(colisionRight()) {
+            if(colisionRight() ) {
                 pt.moveRight()
             }
         }
@@ -152,8 +152,8 @@ class Game : AppCompatActivity() {
     }
 
     fun colisionPiece():Boolean{
-        return((bvm.board[pt.pixelA.x][pt.pixelA.y] != 1) && (bvm.board[pt.pixelB.x][pt.pixelB.y] != 1) &&
-                (bvm.board[pt.pixelC.x][pt.pixelC.y] != 1) && (bvm.board[pt.pixelD.x][pt.pixelD.y] != 1))
+        return((bvm.board[pt.pixelA.x][pt.pixelA.y] == 0) && (bvm.board[pt.pixelB.x][pt.pixelB.y] == 0) &&
+                (bvm.board[pt.pixelC.x][pt.pixelC.y] == 0) && (bvm.board[pt.pixelD.x][pt.pixelD.y] == 0))
     }
 
     fun gameOver():Boolean{
@@ -166,10 +166,10 @@ class Game : AppCompatActivity() {
     }
 
     fun savePiece(){
-        bvm.board[pt.pixelA.x][pt.pixelA.y] = 1
-        bvm.board[pt.pixelB.x][pt.pixelB.y] = 1
-        bvm.board[pt.pixelC.x][pt.pixelC.y] = 1
-        bvm.board[pt.pixelD.x][pt.pixelD.y] = 1
+        bvm.board[pt.pixelA.x][pt.pixelA.y] = idPieceColor
+        bvm.board[pt.pixelB.x][pt.pixelB.y] = idPieceColor
+        bvm.board[pt.pixelC.x][pt.pixelC.y] = idPieceColor
+        bvm.board[pt.pixelD.x][pt.pixelD.y] = idPieceColor
     }
 
     fun gameMode(){
@@ -318,7 +318,7 @@ class Game : AppCompatActivity() {
                                 0->{
                                     boardView[i][j]!!.setImageResource(R.drawable.greenthree)
                                 }
-                                1->{
+                                idPieceColor->{
                                     colorBoard(i,j,idPieceColor)
                                     //boardView[i][j]!!.setImageResource(R.drawable.green)
                                 }
