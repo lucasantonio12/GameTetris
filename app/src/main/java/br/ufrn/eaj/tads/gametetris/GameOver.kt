@@ -17,16 +17,26 @@ class GameOver : AppCompatActivity() {
         setContentView(R.layout.activity_game_over)
 
 
+
         Glide.with(this).load(R.drawable.gameover).into(imageView)
 
         var params = intent.extras
         var score= params?.getInt("Score")
         val settings = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        newScore = settings.getInt("record",0)
+       // score = 100
+        newScore = settings.getInt("record", 0)
         scoreView.text = score.toString()
+        val edit = settings.edit()
 
         if(newScore < score?.toInt()!!){
             newRecord = true
+            newScore = score
+            /*
+            with(edit) {
+                putInt("record",score)
+                commit()
+            }
+            */
             numRecord.text = score.toString()
         }else{
             newRecord = false
@@ -58,7 +68,6 @@ class GameOver : AppCompatActivity() {
                 putInt("record",newScore)
                 commit()
             }
-
         } else {
             with(edit) {
                 remove("saveNewRecord")

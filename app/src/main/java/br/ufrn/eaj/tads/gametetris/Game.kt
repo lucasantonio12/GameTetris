@@ -296,9 +296,13 @@ class Game : AppCompatActivity() {
         var i = Intent(this,Home::class.java)
         startActivity(i)
         */
-         
         running = true
         gameRun()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 
     fun gameRun(){
