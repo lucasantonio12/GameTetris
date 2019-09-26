@@ -242,7 +242,7 @@ class Game : AppCompatActivity() {
                 }
                 else{
                     cont++
-                    if((cont == 4)){
+                    if((cont == COLUMN)){
                         destroyLine(i)
                     }
                 }
