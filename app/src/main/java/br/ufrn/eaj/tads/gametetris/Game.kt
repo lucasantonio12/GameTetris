@@ -166,10 +166,10 @@ class Game : AppCompatActivity() {
     }
 
     fun savePiece(){
-        bvm.board[pt.pixelA.x][pt.pixelA.y] = idPieceColor
-        bvm.board[pt.pixelB.x][pt.pixelB.y] = idPieceColor
-        bvm.board[pt.pixelC.x][pt.pixelC.y] = idPieceColor
-        bvm.board[pt.pixelD.x][pt.pixelD.y] = idPieceColor
+        bvm.board[pt.pixelA.x][pt.pixelA.y] = 1
+        bvm.board[pt.pixelB.x][pt.pixelB.y] = 1
+        bvm.board[pt.pixelC.x][pt.pixelC.y] = 1
+        bvm.board[pt.pixelD.x][pt.pixelD.y] = 1
     }
 
     fun gameMode(){
@@ -233,32 +233,6 @@ class Game : AppCompatActivity() {
         }
     }
 
-    fun colorBoard(i:Int,j:Int,idPieceColor: Int){
-        when(idPieceColor){
-            1->{
-                boardView[i][j]!!.setImageResource(R.drawable.red)
-            }
-            2->{
-                boardView[i][j]!!.setImageResource(R.drawable.blue)
-            }
-            3->{
-                boardView[i][j]!!.setImageResource(R.drawable.orange)
-            }
-            4->{
-                boardView[i][j]!!.setImageResource(R.drawable.ocean)
-            }
-            5->{
-                boardView[i][j]!!.setImageResource(R.drawable.purple)
-            }
-            6->{
-                boardView[i][j]!!.setImageResource(R.drawable.yellow)
-            }
-            7->{
-                boardView[i][j]!!.setImageResource(R.drawable.pink)
-            }
-        }
-    }
-
     fun scoreLine(){
         for (i in 0 until LINE) {
             var cont = 0
@@ -268,7 +242,7 @@ class Game : AppCompatActivity() {
                 }
                 else{
                     cont++
-                    if((cont === COLUMN)){
+                    if((cont == 4)){
                         destroyLine(i)
                     }
                 }
@@ -277,8 +251,9 @@ class Game : AppCompatActivity() {
     }
 
     fun destroyLine(line:Int){
-        bvm.board[line] = Array(COLUMN){0}
+        //bvm.board[i] = Array(COLUMN){0}
         for(i in line downTo  1){
+            bvm.board[i] = Array(COLUMN){0}
             bvm.board[i] = bvm.board[i - 1]
         }
         score += 20
@@ -305,6 +280,10 @@ class Game : AppCompatActivity() {
 
     }
 
+    fun gameBoard(){
+
+    }
+
     fun gameRun(){
         Thread{
             while(running){
@@ -312,16 +291,11 @@ class Game : AppCompatActivity() {
                 runOnUiThread{
                     //limpa tela
                    // boardColor()
+
                     for (i in 0 until LINE) {
                         for (j in 0 until COLUMN) {
-                            when(bvm.board[i][j]){
-                                0->{
-                                    boardView[i][j]!!.setImageResource(R.drawable.greenthree)
-                                }
-                                idPieceColor->{
-                                    colorBoard(i,j,idPieceColor)
-                                    //boardView[i][j]!!.setImageResource(R.drawable.green)
-                                }
+                            if(bvm.board[i][j]!= 1){
+                                boardView[i][j]!!.setImageResource(R.drawable.greenthree)
                             }
                         }
                     }
